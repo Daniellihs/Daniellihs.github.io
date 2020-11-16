@@ -1,0 +1,66 @@
+﻿FUNCTION_BLOCK "ArrayMaxValueSearch"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      FBen : Bool;
+      ArrayIn : Array[0..63] of Int;
+   END_VAR
+
+   VAR_OUTPUT 
+      MaxValue : Int;
+      MinVaule : Int;
+      MaxValuePoint : Int;
+      MinValuePoint : Int;
+   END_VAR
+
+   VAR_IN_OUT 
+      Statu : Byte;
+   END_VAR
+
+   VAR 
+      CheckMaxPoint : Int;
+      CheckMinPoint : Int;
+   END_VAR
+
+
+BEGIN
+	REGION SystemFirstScan
+	    IF "FirstScan" THEN
+	        #Statu := 0;
+	    END_IF;
+	    
+	END_REGION
+	
+	REGION MaxValueSearch
+	    IF #Statu=0 THEN
+	        #MaxValue := #ArrayIn[0];
+	        FOR #CheckMaxPoint := 0 TO 63 DO
+	            IF #MaxValue < #ArrayIn[#CheckMaxPoint] THEN
+	                #MaxValue := #ArrayIn[#CheckMaxPoint];
+	            END_IF;
+	            IF #MaxValue = #ArrayIn[#CheckMaxPoint] THEN
+	                #MaxValuePoint := #CheckMaxPoint;
+	            END_IF;
+	        END_FOR;
+	    END_IF;
+	    
+	END_REGION
+	
+	REGION MinValueSearch
+	    IF #Statu=0  THEN
+	        #MinVaule := #ArrayIn[0];
+	        FOR #CheckMinPoint := 0 TO 2 DO
+	            IF #ArrayIn[#CheckMinPoint] < #MinVaule THEN
+	                #MinVaule := #ArrayIn[#CheckMinPoint];
+	            END_IF;
+	            IF #MinVaule = #ArrayIn[#CheckMinPoint] THEN
+	                #MinValuePoint := #CheckMinPoint;
+	            END_IF;
+	        END_FOR;
+	    END_IF;
+	
+	    
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
