@@ -24,7 +24,12 @@ VERSION : 0.1
 
 
 BEGIN
+
+   (*
+   	V1.0
 	   1.实时读取数组中的最大值及最小值，定位到具体的下标
+	   2.Arrary长度可以根据实际的应用更改，这里没有做动态判断
+   *)
 	REGION SystemFirstScan
 	    IF "FirstScan" THEN
 	        #Statu := 0;
